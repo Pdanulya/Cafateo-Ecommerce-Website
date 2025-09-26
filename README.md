@@ -1,7 +1,6 @@
 # Cafateo Ecommerce Website
 
-Welcome to **Cafateo**, an online platform for exploring, ordering, and reserving at one of Colombo's oldest and most beloved coffee houses. This project contains both the **frontend** and **backend** of the Cafateo website.
-
+Welcome to **Cafateo**, a full stack e-commerce web application for resturents.
 ---
 
 ## Table of Contents
