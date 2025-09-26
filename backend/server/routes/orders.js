@@ -1,18 +1,39 @@
+// Create order → POST /api/orders
+
+// Get orders (for logged in user) → GET /api/orders
+// (since inside routes/orders.js you had router.get("/"))
+
+// PayHere notify → POST /payhere/notify
+// (notice: this one is defined in both index.js, and inside /api/orders)
+
+
+
+
 const express = require("express");
 const router = express.Router();
 const crypto = require("crypto");
 const Order = require("../models/order"); // import the Order model
+const auth = require("../middleware/auth");
 
 // Create new order
-router.post("/", auth, async (req, res) => {
+router.post("", auth, async (req, res) => {
   try {
     const { cart, total, paymentMethod } = req.body;
+    console.log("Incoming Order:",req.body);
+
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ message: "Unauthorized: user not found in request." });
+    }
     const userId = req.user._id; // ✅ comes from token now
 
-    let payhereOrderId = null;
-    if (paymentMethod === "Online") {
-      payhereOrderId = "ORD" + Date.now(); // unique ID for PayHere
-    }
+    const payhereOrderId = paymentMethod ==="Online"
+      ? "ORD" + Date.now() + Math.floor(Math.random() * 1000)
+      : null;
+
+    // let payhereOrderId = null;
+    // if (paymentMethod === "Online") {
+    //   payhereOrderId = "ORD" + Date.now(); // unique ID for PayHere
+    // }
 
     const newOrder = new Order({
       userId,
@@ -24,23 +45,37 @@ router.post("/", auth, async (req, res) => {
     });
 
     const savedOrder = await newOrder.save();
-    res.json({ orderId: savedOrder._id, payhereOrderId });
+
+    console.log("Incoming Order:", req.body); // check request data
+    console.log("payhereOrderId:", payhereOrderId); // check generated PayHere order ID
+
+    res.status(201).json({
+      message: "Order created successfully",
+      orderId: savedOrder._id,
+      payhereOrderId
+    });
   } catch (err) {
-    console.error(err);
+    console.error("Order creation error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-// Get all orders for a user
-router.get("/:userId", async (req, res) => {
+
+
+// Get all orders for a user(like a history)
+router.get("/", auth, async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.params.userId });
+    const userId = req.user._id; // comes from auth middleware
+    const orders = await Order.find({ userId }).sort({ createdAt: -1 }); // newest first
+    // const orders = await Order.find({ userId: req.params.userId });
     res.json(orders);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Error fetching orders:", err);
+    res.status(500).json({ message: "Server error", error:err.message });
   }
 });
+
+
 
 // ✅ PayHere notify endpoint
 router.post("/payhere/notify", async (req, res) => {

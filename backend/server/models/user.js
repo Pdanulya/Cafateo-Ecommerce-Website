@@ -21,11 +21,11 @@ userSchema.methods.generateAuthToken = function() {
 
 const User = mongoose.model("user", userSchema);
 
-const validate = (data) => {
-    const schema = Joi.object({
-        firstName: Joi.string().required().label("First Name"),
-        lastName: Joi.string().required().label("Last Name"),
-        email: Joi.email().required().label("Email"),
+const validate = (data) => {      //this is the request body for register api
+    const schema = joi.object({
+        firstName: joi.string().required().label("First Name"),
+        lastName: joi.string().required().label("Last Name"),
+        email: joi.string().email().required().label("Email"),
         password: passwordComplexity().required().label("Password"),
     });
     return schema.validate(data);

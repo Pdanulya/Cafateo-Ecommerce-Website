@@ -10,14 +10,18 @@
 
 
 
-require('dotenv').config();
-const express = require('express');
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import connectDB from './db.js';
+import userRoutes from './routes/register.js';
+import authRoutes from './routes/login.js';
+import orderRoutes from './routes/orders.js';
+import payhereRoutes from "./routes/payhere.js";
+import crypto from 'crypto';
+
+dotenv.config();
 const app = express();
-const cors = require("cors");
-const connection = require("./db");
-const userRoutes = require("./routes/users");
-const authRoutes = require("./routes/auth");
-const orderRoutes = require("../routes/orders");
 
 //database connection
 connectDB();
@@ -27,52 +31,19 @@ app.use(express.json());
 app.use(cors());
 
 //routes
-app.use("/api/users", userRoutes);
-app.use("/api/auth",authRoutes);
-app.use("api/orders",orderRoutes);
+app.use("/api/register", userRoutes);
+app.use("/api/login",authRoutes);
+app.use("/api/orders",orderRoutes);
+app.use("/api/payhere", payhereRoutes);
+
+app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => console.log(`Listening on port ${port}...`));
 
-const crypto = require("crypto");
 
-// PayHere Notify URL
-app.post("/payhere/notify", (req, res) => {
-  const {
-    merchant_id,
-    order_id,
-    payhere_amount,
-    payhere_currency,
-    status_code,
-    md5sig
-  } = req.body;
 
-  console.log("🔔 PayHere Notification:", req.body);
-
-  // Compute local md5 signature
-  const localMd5 = crypto
-    .createHash("md5")
-    .update(
-      merchant_id +
-        order_id +
-        payhere_amount +
-        payhere_currency +
-        status_code +
-        crypto.createHash("md5").update(process.env.MERCHANT_SECRET).digest("hex").toUpperCase()
-    )
-    .digest("hex")
-    .toUpperCase();
-
-  if (localMd5 === md5sig && status_code === "2") {
-    console.log("✅ Payment verified for Order:", order_id);
-
-  } else {
-    console.log("❌ Invalid payment or hash mismatch for Order:", order_id);
-  }
-
-  res.sendStatus(200); // ✅ Always return 200 to PayHere
-});
 
 
 
