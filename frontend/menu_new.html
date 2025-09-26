@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.google.com/share?selection.family=Nunito:ital,wght@0,200..1000;1,200..1000" rel="stylesheet">
+        
+        <title>CAFATEO</title>
+        <link rel="stylesheet" href="stylesheet.css">
+        <script src="https://unpkg.com/lucide@latest"></script>
+
+    </head>
+
+<body>
+<header>
+            <div class="header">
+                <div class="logo">
+                     <img src="ChatGPT Image Aug 18, 2025, 09_58_31 PM.png" alt="CAFATEO Logo" width="200" height="150">
+                </div>
+
+                <nav class="nav_menu">
+                        <ul>
+                            <li><a href="CoffeShop_code.html">Home</a></li> 
+                            <li><a href="about.html">About Us</a></li> 
+                            <li><a href="menu_new.html">Menu</a></li> 
+                            <li><a href="visit.html">Our Shop</a></li> 
+                            <li><a href="Reservation.html">Reservation</a></li> 
+                        </ul>
+                </nav>
+
+                <div class="nav_icons">   
+
+                    <a href="cart.html" class="icon-wrapper">
+                        <i data-lucide="shopping-cart"></i> 
+                        <span class="item-count"></span>
+                        <div class="icon-label">View Cart</div>
+                    </a>
+                     
+                    <a href="login.html" class="icon-wrapper">
+                        <i data-lucide="user"></i> 
+                        <div class="icon-label">Login</div>
+                    </a>
+
+                      <a href="#" class="icon-wrapper" id="searchIcon">
+                        <i data-lucide="search"></i> 
+                        <div class="icon-label">Search</div>
+                    </a>
+                    <!-- Search Overlay -->
+                    <div id="searchOverlay" class="overlay">
+                    <div class="search-box">
+                        <form>
+                        <input type="text" placeholder="Search for anything..." required />
+                        <button type="submit">Search</button>
+                        </form>
+                        <span class="close-btn" id="closeOverlay">&times;</span>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+            
+              
+        </header> 
+
+        <div class="img1">
+            <img src="bg_image.jpg">
+        </div>
+
+
+<br><br>
+<p id="p8">Dive into a delightful journey of flavors at Cafateo – where every dish is more than just food, it’s an experience. From the comforting aroma of freshly brewed coffee to the rich, hearty meals crafted with love, our menu is designed to bring warmth to your soul and joy to your taste buds.</p>
+
+<div class="menu-section">
+
+  
+   <div class="category" onclick="toggleItems(this)">Beverages</div>
+    <div class="items">
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/apple-iced-tea.jpg">
+        <p>Apple Iced Tea</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/Cappuccino.jpg">
+        <p>Cappucino</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/caramel-macchiato.jpg">
+        <p>Caramel-Macchiato</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/Double Macchiato.jpg">
+        <p>Double-Macchiato</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/chocolate-milkshake.jpg">
+        <p>Chocolate Milkshake</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/strawberryms.jpg">
+        <p>Strawberry Milkshake</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/dragon-mojito.jpeg">
+        <p>Dragon Mojito</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/Iced-Matcha-Latte-recipe.jpg">
+        <p>Matcha</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+        
+    </div>
+
+    <div class="category" onclick="toggleItems(this)">Backery Products</div>
+    <div class="items">
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/pastry.jpg">
+        <p>Pastries</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/croissants.jpg">
+        <p>Croissants</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/tarts.jpg">
+        <p>Tarts</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/eclairs.jpg">
+        <p>Eclairs</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/bun.jpg">
+        <p>Chicken/Fish/Veg Buns</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/Spring-Rolls.webp">
+        <p>Spring Rolls</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>        
+    </div>
+
+    <div class="category" onclick="toggleItems(this)">Desserts</div>
+    <div class="items">
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/fruitsalad.webp">
+        <p>Salads</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/choclate.jpg">
+        <p>Brownies</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/icecream.webp">
+        <p>Ice Cream</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/cakes.jpg">
+        <p>Cakes</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/cupcakes.jpg">
+        <p>Cup Cakes</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/waffles.avif">
+        <p>Waffeles</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/pudding.jpg">
+        <p>Puddings</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>        
+    </div>
+
+     <div class="category" onclick="toggleItems(this)">Mains</div>
+    <div class="items">
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/rice.jpg">
+        <p>Fried-Rice</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/pizza.jpg">
+        <p>Pizza</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/noodles.webp">
+        <p>Noodles</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/sandwich.jpg">
+        <p>Sandwiches</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/tacos.jpg">
+        <p>Tacos</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="item-card" data-price="1750">
+        <img src="menu-items/salad.webp">
+        <p>Salads</p>
+        <p>Rs.1750.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>       
+    </div>
+
+</div>
+
+
+
+<script>
+    // Toggle menu items
+    function toggleItems(element) {
+        element.classList.toggle("open");
+    }
+
+    // Get cart from localStorage or empty array
+    function getCart() {
+        return JSON.parse(localStorage.getItem("cart")) || [];
+    }
+
+    // Save cart back to localStorage
+    function saveCart(cart) {
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    // Update the cart icon counter
+
+  updateCartCount(); // call once on page load
+
+
+
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function () {
+            const itemCard = button.closest(".item-card");
+            const name = itemCard.querySelector("p").innerText;
+            // const price = itemCard.querySelectorAll("p")[1].innerText;
+
+            const priceText = itemCard.querySelectorAll("p")[1].innerText; // e.g. "Rs.250"
+            // const price = parseFloat(priceText.replace(/[^0-9.]/g, '')); // now it's 250
+            const price = parseFloat(itemCard.dataset.price); // always 1750
+
+
+
+            const img = itemCard.querySelector("img").src;
+
+            let cart = getCart();
+
+            // Check if item already exists
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1; // Increment quantity
+            } else {
+                cart.push({ name, price, img, quantity: 1 });
+            }
+
+            saveCart(cart);
+            updateCartCount();
+            showToast("Item added to cart!");
+
+            //alert("Item added to cart!");
+            
+        });
+    });
+
+    function showToast(message) {
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerText = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+          toast.classList.add("show");
+      }, 10);
+
+      setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => document.body.removeChild(toast), 300);
+      }, 2000); // visible for 2 seconds
+    }
+      
+    function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const countSpan = document.querySelector(".item-count");
+    if (countSpan) {
+        const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+        countSpan.textContent = totalQty > 0 ? totalQty : "";
+    }
+}
+
+
+updateCartCount();
+
+
+    // Update counter on page load
+    // updateCartCount();
+</script>
+
+
+<footer class="footer">
+            <div class="footer-container">
+              <div class="footer-section">
+                <h3>𝖥𝗂𝗇𝖽 𝗎𝗌</h3>
+                <div class="social-icons">
+                  <a href="#"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+                  <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+              </div>
+             
+              <div class="footer-section">
+                <h3>𝖨𝗇𝖿𝗈</h3>
+                <ul>
+                  <li><a href="#">𝖢𝖺𝗅𝗅 𝖴𝗌 - +94 70 7810 810</a></li>
+                  <li><a href="#">𝖤𝗆𝖺𝗂𝗅 - 𝗂𝗇𝖿𝗈@𝖼𝖺𝖿𝖺𝗍𝖾𝗈.𝗅𝗄</a></li>
+                  <li><a href="#">𝖯𝗋𝗂𝗏𝖺𝖼𝗒 𝖯𝗈𝗅𝗂𝖼𝗒</a></li>
+                </ul>
+              </div>
+          
+              <div class="footer-section">
+                <h3>𝖠𝖻𝗈𝗎𝗍 𝖢𝖺𝖿𝖺𝗍𝖾𝗈</h3>
+                <p>
+                  𝖢𝖺𝖿𝖺𝗍𝖾𝗈 𝖢𝗈𝗅𝗈𝗆𝖻𝗈 𝗂𝗌 𝗈𝗇𝖾 𝗈𝖿 𝗍𝗁𝖾 𝗈𝗅𝖽𝖾𝗌𝗍 𝖼𝗈𝖿𝖿𝖾𝖾 𝗁𝗈𝗎𝗌𝖾𝗌 𝗂𝗇 𝖲𝗋𝗂 𝖫𝖺𝗇𝗄𝖺.                   
+                  𝖢𝖺𝖿𝖺𝗍𝖾𝗈 𝗂𝗌 𝗐𝖾𝗅𝗅 𝗄𝗇𝗈𝗐𝗇 𝖿𝗈𝗋 𝖾𝗆𝗉𝗁𝖺𝗌𝗂𝗓𝗂𝗇𝗀 𝗈𝗇 𝗌𝖾𝗋𝗏𝗂𝗇𝗀 𝗊𝗎𝖺𝗅𝗂𝗍𝗒 𝖼𝗈𝖿𝖿𝖾𝖾 𝖺𝗅𝗅 𝗍𝗁𝖾 𝗍𝗂𝗆𝖾.
+                </p>
+              </div>
+            </div>
+          
+            <hr />
+          
+            <div class="footer-bottom">
+              <p>© 𝖢𝗈𝗉𝗒𝗋𝗂𝗀𝗁𝗍 2025<strong>𝖢𝖠𝖥𝖠𝖳𝖤𝖮</strong>. 𝖠𝗅𝗅 𝖱𝗂𝗀𝗁𝗍𝗌 𝖱𝖾𝗌𝖾𝗋𝗏𝖾𝖽</p>
+              <p>𝖣𝖾𝗌𝗂𝗀𝗇𝖾𝖽 𝖻𝗒  <a href="#">𝖳𝖾𝖼𝗁𝗋𝗈𝗈𝗍</a></p>
+            </div>
+          </footer>
+          
+          
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+      <script>
+        lucide.createIcons();
+      </script> 
+      <script src="search.js"></script>
+      <script src="menu_new.js"></script>
+      <!-- <script src="cart-utils.js"></script> -->
+
+    </body>
+</html>

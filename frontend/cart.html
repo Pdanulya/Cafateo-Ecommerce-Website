@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="cart-utils.js"></script>
+  <link rel="stylesheet" href="stylesheet.css">
+
+ 
+</head>
+<body>
+<header>
+  <div class="header">
+    <div class="logo">
+         <img src="ChatGPT Image Aug 18, 2025, 09_58_31 PM.png" alt="CAFATEO Logo" width="200" height="150">
+    </div>
+
+                <nav class="nav_menu">
+                        <ul>
+                            <li><a href="CoffeShop_code.html">Home</a></li> 
+                            <li><a href="about.html">About Us</a></li> 
+                            <li><a href="menu_new.html">Menu</a></li> 
+                            <li><a href="visit.html">Our Shop</a></li> 
+                            <li><a href="Reservation.html">Reservation</a></li> 
+                        </ul>
+                </nav>
+
+                <div class="nav_icons">   
+
+                    <a href="cart.html" class="icon-wrapper">
+                        <i data-lucide="shopping-cart"></i> 
+                        <span class="item-count"></span>
+                        <div class="icon-label">View Cart</div>
+                    </a>
+                     
+                    <a href="login.html" class="icon-wrapper">
+                        <i data-lucide="user"></i> 
+                        <div class="icon-label">Login</div>
+                    </a>
+
+                    <a href="#" class="icon-wrapper" id="searchIcon">
+                        <i data-lucide="search"></i> 
+                        <div class="icon-label">Search</div>
+                    </a>
+
+                    <!-- Search Overlay -->
+                    <div id="searchOverlay" class="overlay">
+                    <div class="search-box">
+                        <form>
+                        <input type="text" placeholder="Search for anything..." required />
+                        <button type="submit">Search</button>
+                        </form>
+                        <span class="close-btn" id="closeOverlay">&times;</span>
+                    </div>
+                    </div>
+                </div>
+  </div>          
+</header> 
+
+    <div class="empty-cart">
+
+    </div>
+
+
+
+<script>
+function getCart() {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+function renderCart() {
+    const cart = getCart();
+    const container = document.querySelector(".empty-cart");
+
+    if (cart.length === 0) {
+        container.innerHTML = `
+            <p id="p2">Your Cart is Empty!</p>
+            <p>Looks like you haven't added any of your favorite items yet. Start exploring and find something delicious!</p>
+            <a href="menu_new.html"><button>Continue Browsing</button></a>
+        `;
+        return;
+    }
+
+    let html = `
+        <h2 class="cart-heading">Your Cart</h2>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    cart.forEach((item, index) => {
+        html += `
+            <tr>
+                <td><img src="${item.img}" alt="${item.name}"></td>
+                <td>${item.name}</td>
+                <td>${item.price}</td>
+                <td>
+                    <div class="qty-buttons">
+                        <button onclick="decreaseQty(${index})">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="increaseQty(${index})">+</button>
+                    </div>
+                </td>
+                <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
+            </tr>
+        `;
+    });
+
+    html += `
+            </tbody>
+        </table>
+        <br><br>
+        <a href="checkout.html"><button>Proceed to Checkout</button></a>
+    `;
+
+    container.innerHTML = html;
+    updateCartCount();
+}
+
+function increaseQty(index) {
+    const cart = getCart();
+    cart[index].quantity += 1;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+}
+
+function decreaseQty(index) {
+    let cart = getCart();
+    if(cart[index].quantity > 1){
+        cart[index].quantity -= 1;
+    } else {
+        cart.splice(index, 1);
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+}
+
+function removeItem(index) {
+    let cart = getCart();
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+}
+
+
+updateCartCount(); // call once on page load
+
+
+renderCart();
+</script>
+
+
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>𝖥𝗂𝗇𝖽 𝗎𝗌</h3>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div class="footer-section">
+      <h3>𝖨𝗇𝖿𝗈</h3>
+      <ul>
+        <li><a href="#">𝖢𝖺𝗅𝗅 𝖴𝗌 - +94 70 7810 810</a></li>
+        <li><a href="#">𝖤𝗆𝖺𝗂𝗅 - 𝗂𝗇𝖿𝗈@𝖼𝖺𝖿𝖺𝗍𝖾𝗈.𝗅𝗄</a></li>
+        <li><a href="#">𝖯𝗋𝗂𝗏𝖺𝖼𝗒 𝖯𝗈𝗅𝗂𝖼𝗒</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>𝖠𝖻𝗈𝗎𝗍 𝖢𝖺𝖿𝖺𝗍𝖾𝗈</h3>
+      <p>
+        𝖢𝖺𝖿𝖺𝗍𝖾𝗈 𝖢𝗈𝗅𝗈𝗆𝖻𝗈 𝗂𝗌 𝗈𝗇𝖾 𝗈𝖿 𝗍𝗁𝖾 𝗈𝗅𝖽𝖾𝗌𝗍 𝖼𝗈𝖿𝖿𝖾𝖾 𝗁𝗈𝗎𝗌𝖾𝗌 𝗂𝗇 𝖲𝗋𝗂 𝖫𝖺𝗇𝗄𝖺.
+        𝖢𝖺𝖿𝖺𝗍𝖾𝗈 𝗂𝗌 𝗐𝖾𝗅𝗅 𝗄𝗇𝗈𝗐𝗇 𝖿𝗈𝗋 𝖾𝗆𝗉𝗁𝖺𝗌𝗂𝗓𝗂𝗇𝗀 𝗈𝗇 𝗌𝖾𝗋𝗏𝗂𝗇𝗀 𝗊𝗎𝖺𝗅𝗂𝗍𝗒 𝖼𝗈𝖿𝖿𝖾𝖾 𝖺𝗅𝗅 𝗍𝗁𝖾 𝗍𝗂𝗆𝖾.
+      </p>
+    </div>
+  </div>
+  <hr />
+  <div class="footer-bottom">
+    <p>© 𝖢𝗈𝗉𝗒𝗋𝗂𝗀𝗁𝗍 2025 <strong>𝖢𝖠𝖥𝖠𝖳𝖤𝖮</strong>. 𝖠𝗅𝗅 𝖱𝗂𝗀𝗁𝗍𝗌 𝖱𝖾𝗌𝖾𝗋𝗏𝖾𝖽</p>
+    <p>𝖣𝖾𝗌𝗂𝗀𝗇𝖾𝖽 𝖻𝗒 <a href="#">𝖳𝖾𝖼𝗁𝗋𝗈𝗈𝗍</a></p>
+  </div>
+</footer>
+
+<script>
+    lucide.createIcons();
+</script>
+
+<script src="search.js"></script>
+
+</body>
+</html>

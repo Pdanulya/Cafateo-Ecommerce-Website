@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout - CAFATEO</title>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="stylesheet.css">
+  <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+
+
+</head>
+<body>
+
+<header>
+  <div class="header">
+    <div class="logo">
+         <img src="ChatGPT Image Aug 18, 2025, 09_58_31 PM.png" alt="CAFATEO Logo" width="200" height="150">
+    </div>
+
+                <nav class="nav_menu">
+                        <ul>
+                            <li><a href="CoffeShop_code.html">Home</a></li> 
+                            <li><a href="about.html">About Us</a></li> 
+                            <li><a href="menu_new.html">Menu</a></li> 
+                            <li><a href="visit.html">Our Shop</a></li> 
+                            <li><a href="Reservation.html">Reservation</a></li> 
+                        </ul>
+                </nav>
+
+                <div class="nav_icons">   
+
+                    <a href="cart.html" class="icon-wrapper">
+                        <i data-lucide="shopping-cart"></i> 
+                        <span class="item-count"></span>
+                        <div class="icon-label">View Cart</div>
+                    </a>
+                     
+                    <a href="login.html" class="icon-wrapper">
+                        <i data-lucide="user"></i> 
+                        <div class="icon-label">Login</div>
+                    </a>
+
+                    <a href="#" class="icon-wrapper" id="searchIcon">
+                        <i data-lucide="search"></i> 
+                        <div class="icon-label">Search</div>
+                    </a>
+
+                    <!-- Search Overlay -->
+                    <div id="searchOverlay" class="overlay">
+                    <div class="search-box">
+                        <form>
+                        <input type="text" placeholder="Search for anything..." required />
+                        <button type="submit">Search</button>
+                        </form>
+                        <span class="close-btn" id="closeOverlay">&times;</span>
+                    </div>
+                    </div>
+                </div>
+  </div>          
+</header> 
+
+<div class="checkout-container" id="checkoutContainer">
+  <!-- Checkout items will be dynamically loaded here -->
+</div>
+
+<script>
+  lucide.createIcons();
+
+  function getCart() {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+  }
+
+  function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+
+  function updateCartCount() {
+    const cart = getCart();
+    const countSpan = document.querySelector(".item-count");
+    if (countSpan) {
+      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+      countSpan.textContent = totalQty > 0 ? totalQty : "";
+    }
+  }
+
+  function renderCheckout() {
+    const container = document.getElementById("checkoutContainer");
+    const cart = getCart();
+
+    if (cart.length === 0) {
+      container.innerHTML = `
+        <p id="p2">Your Cart is Empty!</p>
+        <a href="menu_new.html"><button>Continue Browsing</button></a>
+      `;
+      return;
+    }
+
+    let html = "<h2 class='checkout-heading'>Checkout</h2>";
+    let total = 0;
+
+    html += `<table class="checkout-table">
+              <tr>
+                
+              </tr>`;
+
+    cart.forEach((item, index) => {
+      total += item.price * item.quantity;
+
+      html += `
+        <tr>
+          <td><strong>${item.name}</strong></td>
+          <td>Rs.${item.price.toFixed(2)}</td>
+          <td>
+            <div class="qty-buttons">
+              <button onclick="decreaseQty(${index})">-</button>
+              <span>${item.quantity}</span>
+              <button onclick="increaseQty(${index})">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="removeItem(${index})">Remove</button>
+          </td>
+        </tr>
+        <br>
+      `;
+    });
+
+    html += `</table>`;
+    html += `<p class="total">Total: Rs.${total.toFixed(2)}</p>`;
+
+
+
+
+
+
+    // Payment section
+    html += `
+      <div class="payment-section"><br>
+        <h3>Select Payment Method</h3><br>
+        <label>
+          <input type="radio" name="paymentMethod" value="cod" checked>
+          Cash on Delivery
+        </label>
+        <label>
+          <input type="radio" name="paymentMethod" value="payhere">
+          Pay Online with PayHere
+        </label><br>
+      </div><br>
+      <div class="checkout-actions">
+        <button onclick="placeOrder(${total})">Place Order</button>
+      </div>
+    `;
+
+    container.innerHTML = html;
+  }
+
+ async function placeOrder(total) {
+  const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+  const cart = getCart();
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("⚠️ Please login first to place an order.");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:8080/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token
+      },
+      body: JSON.stringify({
+        cart,
+        total,
+        paymentMethod: method === "cod" ? "COD" : "Online"
+      })
+    });
+
+    const data = await res.json();
+    console.log("Order response:", data);  //check payhereOrderId here 
+
+    if (method === "cod") {
+      alert("✅ Your order has been placed. Pay Cash on Delivery.");
+      localStorage.removeItem("cart");
+      renderCheckout();
+      updateCartCount();
+    } else if (method === "payhere") {
+      if(!data.payhereOrderId){
+        alert("Error: PayaHere Order Id not generated");
+        return;
+      }
+      startPayHere(total, data.payhereOrderId); // ✅ PayHere flow
+    }
+  } catch (err) {
+    console.error("Order error:", err);
+    alert("Something went wrong placing your order.");
+  }
+}
+
+
+  async function startPayHere(total, orderId) {
+    // call api to get payment hash
+    const response = await fetch("http://localhost:8080/api/payhere/generate-hash", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      merchant_id: "1231899",
+      order_id: orderId,
+      amount: total,
+      currency: "LKR"
+    })
+  });
+
+  const {hash} = await response.json();
+
+  if (!hash) {
+      alert("Failed to generate payment hash");
+      return;
+    }
+
+    const payment = {
+      sandbox: true,
+      merchant_id: "1231899", // replace with your PayHere merchant ID
+      return_url: "http://localhost/success.html",
+      cancel_url: "http://localhost/cancel.html",
+      notify_url: "http://localhost:8080/api/orders/payhere/notify",
+      order_id: orderId, // comes from backend
+      items: "CAFATEO Order",
+      amount: total,
+      currency: "LKR",
+      first_name: "Customer",
+      last_name: "Name",
+      email: "customer@example.com",
+      phone: "0771234567",
+      address: "Colombo",
+      city: "Colombo",
+      country: "Sri Lanka",
+      hash: hash
+    };
+
+    payhere.startPayment(payment);
+  } 
+
+  function increaseQty(index) {
+    let cart = getCart();
+    cart[index].quantity += 1;
+    saveCart(cart);
+    renderCheckout();
+    updateCartCount();
+  }
+
+  function decreaseQty(index) {
+    let cart = getCart();
+    if (cart[index].quantity > 1) {
+      cart[index].quantity -= 1;
+    } else {
+      cart.splice(index, 1);
+    }
+    saveCart(cart);
+    renderCheckout();
+    updateCartCount();
+  }
+
+  function removeItem(index) {
+    let cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+    renderCheckout();
+    updateCartCount();
+  }
+
+  renderCheckout();
+  updateCartCount();
+</script>
+
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>𝖥𝗂𝗇𝖽 𝗎𝗌</h3>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div class="footer-section">
+      <h3>𝖨𝗇𝖿𝗈</h3>
+      <ul>
+        <li><a href="#">𝖢𝖺𝗅𝗅 𝖴𝗌 - +94 70 7810 810</a></li>
+        <li><a href="#">𝖤𝗆𝖺𝗂𝗅 - 𝗂𝗇𝖿𝗈@𝖼𝖺𝖿𝖺𝗍𝖾𝗈.𝗅𝗄</a></li>
+        <li><a href="#">𝖯𝗋𝗂𝗏𝖺𝖼𝗒 𝖯𝗈𝗅𝗂𝖼𝗒</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>𝖠𝖻𝗈𝗎𝗍 𝖢𝖺𝖿𝖺𝗍𝖾𝗈</h3>
+      <p>
+        𝖢𝖺𝖿𝖺𝗍𝖾𝗈 𝖢𝗈𝗅𝗈𝗆𝖻𝗈 𝗂𝗌 𝗈𝗇𝖾 𝗈𝖿 𝗍𝗁𝖾 𝗈𝗅𝖽𝖾𝗌𝗍 𝖼𝗈𝖿𝖿𝖾𝖾 𝗁𝗈𝗎𝗌𝖾𝗌 𝗂𝗇 𝖲𝗋𝗂 𝖫𝖺𝗇𝗄𝖺.
+        𝖢𝖺𝖿𝖺𝗍𝖾𝗈 𝗂𝗌 𝗐𝖾𝗅𝗅 𝗄𝗇𝗈𝗐𝗇 𝖿𝗈𝗋 𝖾𝗆𝗉𝗁𝖺𝗌𝗂𝗓𝗂𝗇𝗀 𝗈𝗇 𝗌𝖾𝗋𝗏𝗂𝗇𝗀 𝗊𝗎𝖺𝗅𝗂𝗍𝗒 𝖼𝗈𝖿𝖿𝖾𝖾 𝖺𝗅𝗅 𝗍𝗁𝖾 𝗍𝗂𝗆𝖾.
+      </p>
+    </div>
+  </div>
+  <hr />
+  <div class="footer-bottom">
+    <p>© 𝖢𝗈𝗉𝗒𝗋𝗂𝗀𝗁𝗍 2025 <strong>𝖢𝖠𝖥𝖠𝖳𝖤𝖮</strong>. 𝖠𝗅𝗅 𝖱𝗂𝗀𝗁𝗍𝗌 𝖱𝖾𝗌𝖾𝗋𝗏𝖾𝖽</p>
+    <p>𝖣𝖾𝗌𝗂𝗀𝗇𝖾𝖽 𝖻𝗒 <a href="#">𝖳𝖾𝖼𝗁𝗋𝗈𝗈𝗍</a></p>
+  </div>
+</footer>
+
+<script>
+    lucide.createIcons();
+</script>
+
+<script src="search.js"></script>
+
+</body>
+</html>
