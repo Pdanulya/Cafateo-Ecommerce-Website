@@ -68,4 +68,3 @@ The backend handles:
 
 ---
 
-## Project Structure
