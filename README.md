@@ -3,19 +3,6 @@
 Welcome to **Cafateo**, a full stack e-commerce web application for resturents.
 ---
 
-## Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Project Structure](#project-structure)
-- [Setup Instructions](#setup-instructions)
-- [Environment Variables](#environment-variables)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-
----
-
 ## Overview
 Cafateo's website allows customers to:
 - Browse the menu and add items to the cart.
